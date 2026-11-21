@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra NOC | Server Monitoring</title>
+
+    <link rel="stylesheet" href="/dashboard/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">◈</div>
+            <div>
+                <h2>ASTRA<span>NOC</span></h2>
+                <small>INFRASTRUCTURE MONITOR</small>
+            </div>
+        </div>
+
+        <div class="nav-section">MONITORING</div>
+
+        <div class="nav-item active">
+            <span>◉</span> Overview
+        </div>
+
+        <div class="nav-item">
+            <span>▤</span> Performance
+        </div>
+
+        <div class="nav-item">
+            <span>⌘</span> Network
+        </div>
+
+        <div class="nav-item">
+            <span>◈</span> Services
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="connection-indicator">
+                <span class="pulse-dot"></span>
+                <div>
+                    <strong>MONITOR ACTIVE</strong>
+                    <small>Live telemetry</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div>
+                <h1>System Overview</h1>
+                <p>Real-time infrastructure telemetry and performance</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="live-badge">
+                    <span class="pulse-dot"></span>
+                    LIVE
+                </div>
+
+                <div class="clock" id="clock">--:--:--</div>
+            </div>
+        </header>
+
+
+        <!-- SERVER INFO -->
+        <section class="server-banner">
+
+            <div class="server-identity">
+                <div class="server-icon">▣</div>
+
+                <div>
+                    <span class="eyebrow">MONITORED SERVER</span>
+                    <h2 id="hostname">Loading server...</h2>
+                    <p>Linux Server · Astra Infrastructure</p>
+                </div>
+            </div>
+
+            <div class="server-meta">
+                <div>
+                    <span class="meta-label">UPTIME</span>
+                    <strong id="uptime">--</strong>
+                </div>
+
+                <div>
+                    <span class="meta-label">LAST UPDATE</span>
+                    <strong id="last-update">--</strong>
+                </div>
+
+                <div>
+                    <span class="meta-label">SYSTEM STATUS</span>
+                    <strong class="status-online">
+                        <span class="pulse-dot"></span>
+                        OPERATIONAL
+                    </strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- KPI CARDS -->
+        <section class="kpi-grid">
+
+            <div class="kpi-card cpu-card">
+                <div class="kpi-top">
+                    <span>CPU USAGE</span>
+                    <span class="kpi-icon">◉</span>
+                </div>
+
+                <h2 id="cpu-value">0.0%</h2>
+
+                <div class="progress-track">
+                    <div class="progress-fill cpu-fill" id="cpu-bar"></div>
+                </div>
+
+                <div class="kpi-bottom">
+                    <span>Processor utilization</span>
+                    <span id="cpu-state">NORMAL</span>
+                </div>
+            </div>
+
+
+            <div class="kpi-card ram-card">
+                <div class="kpi-top">
+                    <span>MEMORY USAGE</span>
+                    <span class="kpi-icon">▥</span>
+                </div>
+
+                <h2 id="ram-value">0.0%</h2>
+
+                <div class="progress-track">
+                    <div class="progress-fill ram-fill" id="ram-bar"></div>
+                </div>
+
+                <div class="kpi-bottom">
+                    <span id="ram-details">0 / 0 MB</span>
+                    <span id="ram-state">NORMAL</span>
+                </div>
+            </div>
+
+
+            <div class="kpi-card disk-card">
+                <div class="kpi-top">
+                    <span>DISK USAGE</span>
+                    <span class="kpi-icon">◫</span>
+                </div>
+
+                <h2 id="disk-value">0.0%</h2>
+
+                <div class="progress-track">
+                    <div class="progress-fill disk-fill" id="disk-bar"></div>
+                </div>
+
+                <div class="kpi-bottom">
+                    <span id="disk-details">0 GB available</span>
+                    <span id="disk-state">NORMAL</span>
+                </div>
+            </div>
+
+
+            <div class="kpi-card uptime-card">
+                <div class="kpi-top">
+                    <span>SYSTEM UPTIME</span>
+                    <span class="kpi-icon">◷</span>
+                </div>
+
+                <h2 id="uptime-card">--</h2>
+
+                <div class="uptime-decoration">
+                    <div class="uptime-line"></div>
+                </div>
+
+                <div class="kpi-bottom">
+                    <span>Since last boot</span>
+                    <span class="uptime-status">STABLE</span>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- CHARTS -->
+        <section class="charts-grid">
+
+            <!-- CPU CHART -->
+            <div class="panel cpu-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>CPU PERFORMANCE</h3>
+                        <p>Real-time processor utilization</p>
+                    </div>
+
+                    <span class="panel-live">● LIVE</span>
+                </div>
+
+                <div class="chart-stats">
+                    <div>
+                        <span>CURRENT</span>
+                        <strong id="cpu-current">0.0%</strong>
+                    </div>
+
+                    <div>
+                        <span>PEAK</span>
+                        <strong id="cpu-peak">0.0%</strong>
+                    </div>
+
+                    <div>
+                        <span>AVERAGE</span>
+                        <strong id="cpu-average">0.0%</strong>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="cpuChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- RAM CHART -->
+            <div class="panel ram-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>MEMORY PERFORMANCE</h3>
+                        <p>RAM utilization history</p>
+                    </div>
+
+                    <span class="panel-live">● LIVE</span>
+                </div>
+
+                <div class="chart-stats">
+                    <div>
+                        <span>USED</span>
+                        <strong id="ram-current">0 MB</strong>
+                    </div>
+
+                    <div>
+                        <span>TOTAL</span>
+                        <strong id="ram-total">0 MB</strong>
+                    </div>
+
+                    <div>
+                        <span>AVAILABLE</span>
+                        <strong id="ram-available">0 MB</strong>
+                    </div>
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="ramChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- NETWORK CHART -->
+            <div class="panel network-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>NETWORK TRAFFIC</h3>
+                        <p>Interface throughput · RX / TX</p>
+                    </div>
+
+                    <span class="panel-live">● LIVE</span>
+                </div>
+
+                <div class="network-stats">
+
+                    <div class="network-stat rx-stat">
+                        <span class="network-dot"></span>
+                        <div>
+                            <small>DOWNLOAD · RX</small>
+                            <strong id="rx-speed">0 KB/s</strong>
+                        </div>
+                    </div>
+
+                    <div class="network-stat tx-stat">
+                        <span class="network-dot"></span>
+                        <div>
+                            <small>UPLOAD · TX</small>
+                            <strong id="tx-speed">0 KB/s</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="networkChart"></canvas>
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM LOAD -->
+            <div class="panel load-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>SYSTEM LOAD</h3>
+                        <p>Load average · 1 / 5 / 15 minutes</p>
+                    </div>
+
+                    <span class="panel-live">● LIVE</span>
+                </div>
+
+                <div class="load-stats">
+
+                    <div>
+                        <span>1 MIN</span>
+                        <strong id="load-1">0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>5 MIN</span>
+                        <strong id="load-5">0.00</strong>
+                    </div>
+
+                    <div>
+                        <span>15 MIN</span>
+                        <strong id="load-15">0.00</strong>
+                    </div>
+
+                </div>
+
+                <div class="chart-wrapper">
+                    <canvas id="loadChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM STATUS -->
+
+<!-- BOTTOM STATUS -->
+<section class="bottom-grid">
+
+    <!-- SERVICE MONITOR -->
+    <div class="panel services-panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>SERVICE MONITOR</h3>
+                <p>System daemon health</p>
+            </div>
+
+            <span class="panel-live">● LIVE</span>
+        </div>
+
+        <div class="service-list" id="service-list">
+
+            <div class="service-row" id="service-nginx">
+                <div class="service-info">
+                    <span class="service-indicator"></span>
+                    <div>
+                        <strong>NGINX</strong>
+                        <small>Web server</small>
+                    </div>
+                </div>
+                <span class="service-status">CHECKING</span>
+            </div>
+
+            <div class="service-row" id="service-mariadb">
+                <div class="service-info">
+                    <span class="service-indicator"></span>
+                    <div>
+                        <strong>MARIADB</strong>
+                        <small>Database server</small>
+                    </div>
+                </div>
+                <span class="service-status">CHECKING</span>
+            </div>
+
+            <div class="service-row" id="service-php-fpm">
+                <div class="service-info">
+                    <span class="service-indicator"></span>
+                    <div>
+                        <strong>PHP-FPM</strong>
+                        <small>PHP processing</small>
+                    </div>
+                </div>
+                <span class="service-status">CHECKING</span>
+            </div>
+
+            <div class="service-row" id="service-sshd">
+                <div class="service-info">
+                    <span class="service-indicator"></span>
+                    <div>
+                        <strong>SSH</strong>
+                        <small>Remote access</small>
+                    </div>
+                </div>
+                <span class="service-status">CHECKING</span>
+            </div>
+
+        </div>
+
+        <div class="service-summary">
+            <span>Services operational</span>
+            <strong id="service-summary-count">0 / 4</strong>
+        </div>
+
+    </div>
+
+
+    <!-- RESOURCE STATUS -->
+    <div class="panel alerts-panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>RESOURCE STATUS</h3>
+                <p>Threshold monitoring</p>
+            </div>
+        </div>
+
+        <div class="resource-status" id="resource-status">
+
+            <div class="resource-row">
+                <span class="resource-name">
+                    <span class="resource-dot" id="cpu-dot"></span>
+                    CPU
+                </span>
+                <strong id="cpu-alert">NORMAL</strong>
+            </div>
+
+            <div class="resource-row">
+                <span class="resource-name">
+                    <span class="resource-dot" id="ram-dot"></span>
+                    MEMORY
+                </span>
+                <strong id="ram-alert">NORMAL</strong>
+            </div>
+
+            <div class="resource-row">
+                <span class="resource-name">
+                    <span class="resource-dot" id="disk-dot"></span>
+            DISK
+                </span>
+                <strong id="disk-alert">NORMAL</strong>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- SYSTEM INFORMATION -->
+    <div class="panel system-panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>SYSTEM INFORMATION</h3>
+                <p>Host environment</p>
+            </div>
+        </div>
+
+        <div class="system-info-grid">
+
+            <div class="system-info-item">
+                <span>HOSTNAME</span>
+                <strong id="info-hostname">--</strong>
+            </div>
+
+            <div class="system-info-item">
+                <span>OPERATING SYSTEM</span>
+                <strong>Linux</strong>
+            </div>
+
+            <div class="system-info-item">
+                <span>MONITORING</span>
+                <strong class="status-online">ACTIVE</strong>
+            </div>
+
+            <div class="system-info-item">
+                <span>DATA SOURCE</span>
+                <strong>/proc filesystem</strong>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <span>ASTRA NOC · SERVER MONITORING SYSTEM</span>
+            <span>TELEMETRY REFRESH <strong>3 SECONDS</strong></span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="/dashboard/static/js/dashboard.js"></script>
+
+</body>
+</html>
