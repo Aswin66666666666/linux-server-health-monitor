@@ -45,5 +45,5 @@ The purpose of this project is to monitor Linux system resources and important s
 Completed as a Linux administration and monitoring lab project.
 
 ## Author
-
+ASWIN SHIBU
 Linux System Administration Project
