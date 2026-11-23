@@ -44,6 +44,8 @@ The purpose of this project is to monitor Linux system resources and important s
 
 Completed as a Linux administration and monitoring lab project.
 
+<img width="1920" height="1080" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/fdefd792-9de0-4bd7-8422-8b4c8f63ea28" />
+
 ## Author
 
 ASWIN SHIBU
